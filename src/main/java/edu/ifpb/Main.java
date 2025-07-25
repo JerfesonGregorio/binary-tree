@@ -2,24 +2,51 @@ package edu.ifpb;
 
 import edu.ifpb.tree.Tree;
 
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
 public class Main {
     public static void main(String[] args) {
 
         Tree tree = new Tree();
 
-        tree.insert(10);
-        tree.insert(3);
-        tree.insert(11);
-        tree.insert(5);
-        tree.insert(2);
-        tree.insert(4);
-        tree.insert(6);
+        Scanner scanner = new Scanner(System.in);
+        String regex = "^-?\\d+$";
+        boolean active = true;
 
-        System.out.println(tree);
+        while(active) {
 
-        tree.remove(3);
-        System.out.println(tree);
+            Menu.show();
+            System.out.print("Escolha uma opção: ");
+            String input = scanner.next().toLowerCase();
 
-
+            switch (input) {
+                case "1":
+                    System.out.print("Insira um valor: ");
+                    String number = scanner.next();
+                        if(Pattern.matches(regex, number)) {
+                            Integer value = Integer.parseInt(number);
+                            tree.insert(value);
+                            System.out.println("Valor " + value + " inserido com sucesso!\n");
+                        } else {
+                            System.out.println("Falha ao inserir valor: Insira um número válido.");
+                        }
+                        break;
+                case "2":
+                    tree.preOrder();
+                    break;
+                case "3":
+                    tree.inOrder();
+                    break;
+                case "4":
+                    tree.postOrder();
+                    break;
+                case "5":
+                    System.out.println(tree);
+                    break;
+                case "0":
+                    active = false;
+            }
+        }
     }
 }

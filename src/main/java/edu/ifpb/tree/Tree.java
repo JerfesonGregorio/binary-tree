@@ -156,4 +156,40 @@ public class Tree {
         }
     }
 
+    private void printPreOrder(Node<Integer> node) {
+
+        if(node != null) {
+            System.out.println(node.getValue());
+            printPreOrder(node.getLeft());
+            printPreOrder(node.getRight());
+        }
+    }
+
+    private void printInOrder(Node<Integer> node) {
+        if(node != null) {
+            printPreOrder(node.getLeft());
+            System.out.println(node.getValue());
+            printPreOrder(node.getRight());
+        }
+    }
+
+    private void printPostOrder(Node<Integer> node) {
+        if(node != null) {
+            printPreOrder(node.getLeft());
+            printPreOrder(node.getRight());
+            System.out.println(node.getValue());
+        }
+    }
+
+    public void preOrder() {
+        printPreOrder(root);
+    }
+
+    public void inOrder() {
+        printInOrder(root);
+    }
+
+    public void postOrder() {
+        printPostOrder(root);
+    }
 }
