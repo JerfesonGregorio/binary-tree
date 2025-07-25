@@ -30,13 +30,14 @@ public class Tree {
     }
 
     private Node<Integer> search(Integer value, Node<Integer> root) {
-        if(root.getRight() == null && root.getLeft() == null) return null;
-        if(Objects.equals(value, root.getLeft().getValue()) || Objects.equals(value, root.getRight().getValue())) {
+        if (root == null) return null;
+
+        if (Objects.equals(root.getValue(), value)) {
             return root;
-        } else if(value > root.getValue()) {
-            return search(value, root.getRight());
-        } else {
+        } else if (value < root.getValue()) {
             return search(value, root.getLeft());
+        } else {
+            return search(value, root.getRight());
         }
     }
 
@@ -83,17 +84,8 @@ public class Tree {
         return true;
     }
 
-    public Integer search(Integer value) {
-        Node<Integer> node = search(value, root);
-
-        if(node == null) {
-            return null;
-        }
-        if(node.getLeft().getValue().equals(value)) {
-            return node.getLeft().getValue();
-        } else {
-            return node.getRight().getValue();
-        }
+    public Node<Integer> search(Integer value) {
+        return search(value, root);
     }
 
     public void insert(Integer value) {
@@ -191,5 +183,16 @@ public class Tree {
 
     public void postOrder() {
         printPostOrder(root);
+    }
+
+    public int getNodeSize(Node<Integer> node) {
+        if (node == null) {
+            return -1;
+        }
+
+        int leftHeight = getNodeSize(node.getLeft());
+        int rightHeight = getNodeSize(node.getRight());
+
+        return 1 + Math.max(leftHeight, rightHeight);
     }
 }
