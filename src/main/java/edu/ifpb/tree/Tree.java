@@ -185,6 +185,28 @@ public class Tree {
         printPostOrder(root);
     }
 
+    private Node<Integer> rightRotation(Node<Integer> current) {
+
+        Node<Integer> currentLeft = current.getLeft(); // null
+        Node<Integer> currentChildRight = currentLeft.getRight(); //
+
+        currentLeft.setRight(current);
+        current.setLeft(currentChildRight);
+
+        return currentLeft;
+    }
+
+    private Node<Integer> leftRotation(Node<Integer> current) {
+
+        Node<Integer> currentRight = current.getRight(); // 7
+        Node<Integer> currentChildLeft = currentRight.getLeft();  // null
+
+        currentRight.setLeft(current); // 5 <-- 7
+        current.setRight(currentChildLeft); // 10 --> null
+
+        return currentRight;
+    }
+
     public int getNodeSize(Node<Integer> node) {
         if (node == null) {
             return -1;
@@ -195,4 +217,39 @@ public class Tree {
 
         return 1 + Math.max(leftHeight, rightHeight);
     }
+
+    private int balanceFactor(Node<Integer> current) {
+        return getNodeSize(current.getLeft()) - getNodeSize(current.getRight());
+    }
+
+    private Node<Integer> balance(Node<Integer> node) {
+        int nodeBalanceFactor = balanceFactor(node);
+
+        if (nodeBalanceFactor > 1) {
+            if (balanceFactor(node.getLeft()) < 0) {
+                node.setLeft(leftRotation(node.getLeft()));
+            }
+            return rightRotation(node);
+        }
+
+        // Direita pesada
+        if (nodeBalanceFactor < -1) {
+            if (balanceFactor(node.getRight()) > 0) {
+                node.setRight(rightRotation(node.getRight()));
+            }
+            return leftRotation(node);
+        }
+
+        return node;
+    }
+
+
+
+
+
+
+
+
+
+
 }
